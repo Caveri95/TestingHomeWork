@@ -1,37 +1,31 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class UserTest {
-    private final String email = "ura22051995@gmail.com";
-    private final String login = "Caveri123";
-
-    private final User userWithoutParameters = new User();
-    private final User userWithTwoParameters = new User(email, login);
-
+    User userWithTwoParameters = new User("uragmailcom", "");
+    User userWithoutParameters = new User();
 
 
 
     @Test
-    public void shouldValidationUserOfTwoParameters() {
-        Assertions.assertTrue(User.validationUserOfTwoParameters(userWithTwoParameters));
-
+    public void shouldValidationUserOfTwoParametersEmail() {
+        Assertions.assertThrows(Exception.class, () -> User.validationUserOfTwoParametersEmail(userWithTwoParameters.getEmail()));
     }
 
     @Test
-    void shouldValidationUserWithoutParameters() {
+    public void shouldValidationUserOfTwoParametersLogin() {
+        Assertions.assertThrows(Exception.class, () -> User.validationUserOfTwoParametersLogin(userWithTwoParameters.getLogin()));
+    }
+
+    @Test
+    void shouldValidationUserWithoutParameters() throws IllegalAccessException {
         Assertions.assertTrue(User.validationUserWithoutParameters(userWithoutParameters));
     }
 
     @Test
-    void shouldValidationEmail() {
-        Assertions.assertTrue(User.validationEmail(userWithTwoParameters));
-    }
-
-    @Test
     void shouldEqualsLoginAndEmail() {
-        Assertions.assertFalse(User.equalsLoginAndEmail(userWithTwoParameters));
+        User user = new User("ura22@gmail.com", "ura22@gmail.com");
+        Assertions.assertThrows(Exception.class, () -> User.equalsLoginAndEmail(user.getEmail(), user.getLogin()));
     }
 
 }
