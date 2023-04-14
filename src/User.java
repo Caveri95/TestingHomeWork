@@ -5,24 +5,16 @@ public class User {
     private String login;
 
     public User(String email, String login) {
-        try {
-            validationUserOfTwoParametersEmail(email);
+        if (validationUserOfTwoParametersEmail(email)) {
             this.email = email;
-        } catch (UnknownParametersException e) {
-            System.out.println(e.getMessage());
-        }
+        } else throw new IllegalArgumentException();
 
-        try {
-            validationUserOfTwoParametersLogin(login);
+        if (validationUserOfTwoParametersLogin(login)) {
             this.login = login;
-        } catch (UnknownParametersException e) {
-            System.out.println(e.getMessage());
-        }
+        } else throw new IllegalArgumentException();
 
-        try {
-            equalsLoginAndEmail(email, login);
-        } catch (UsernameAndEmailEqualsException e) {
-            System.out.println(e.getMessage());
+        if (equalsLoginAndEmail(email, login)) {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -37,16 +29,16 @@ public class User {
         return login;
     }
 
-    public static void validationUserOfTwoParametersEmail(String email) throws UnknownParametersException {
-        if (!email.contains("@") || !email.contains(".")) {
-            throw new UnknownParametersException("Неверный емейл!");
-        }
+    public static boolean validationUserOfTwoParametersEmail(String email) {
+        return email.contains("@") && email.contains(".");
     }
 
-    public static void validationUserOfTwoParametersLogin(String login) throws UnknownParametersException {
-        if (login.isBlank()) {
-            throw new UnknownParametersException("Введите логин!");
-        }
+    public static boolean validationUserOfTwoParametersLogin(String login) {
+        return !login.isBlank();
+    }
+
+    public static boolean equalsLoginAndEmail(String email, String login)  {
+        return email.equals(login);
     }
 
     public static boolean validationUserWithoutParameters(User user) throws IllegalAccessException {
@@ -55,12 +47,6 @@ public class User {
         return emptyObjectCheck.isEmpty();
     }
 
-
-    public static void equalsLoginAndEmail(String email, String login) throws UsernameAndEmailEqualsException {
-        if (email.equals(login)) {
-            throw new UsernameAndEmailEqualsException("Логин и Email не должны быть равны!");
-        }
-    }
 
     @Override
     public boolean equals(Object o) {

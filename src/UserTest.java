@@ -2,30 +2,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class UserTest {
-    User userWithTwoParameters = new User("uragmailcom", "");
-    User userWithoutParameters = new User();
-
-
 
     @Test
     public void shouldValidationUserOfTwoParametersEmail() {
-        Assertions.assertThrows(Exception.class, () -> User.validationUserOfTwoParametersEmail(userWithTwoParameters.getEmail()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new User("ura2205.ru", "qwerty"));
     }
 
     @Test
     public void shouldValidationUserOfTwoParametersLogin() {
-        Assertions.assertThrows(Exception.class, () -> User.validationUserOfTwoParametersLogin(userWithTwoParameters.getLogin()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new User("ura@2205.ru", "       "));
     }
 
     @Test
     void shouldValidationUserWithoutParameters() throws IllegalAccessException {
-        Assertions.assertTrue(User.validationUserWithoutParameters(userWithoutParameters));
+        Assertions.assertTrue(User.validationUserWithoutParameters(new User()));
     }
 
     @Test
     void shouldEqualsLoginAndEmail() {
-        User user = new User("ura22@gmail.com", "ura22@gmail.com");
-        Assertions.assertThrows(Exception.class, () -> User.equalsLoginAndEmail(user.getEmail(), user.getLogin()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new User("ura@2205.ru", "ura@2205.ru"));
     }
-
 }
